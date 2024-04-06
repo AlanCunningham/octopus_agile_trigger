@@ -21,7 +21,7 @@ def main():
         bridge.set_light(settings.threshold_price_hue_plug_name, "on", False)
 
     # Plunge pricing
-    if current_rate <= 0:
+    if current_rate < 0:
         bridge.set_light(settings.plunge_price_hue_plug_name, "on", True)
     else:
         bridge.set_light(settings.plunge_price_hue_plug_name, "on", False)
