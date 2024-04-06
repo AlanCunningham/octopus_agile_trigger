@@ -14,10 +14,18 @@ def main():
 
     print(current_rate)
 
+    # Below threshold
     if current_rate < settings.price_threshold_pence:
-        bridge.set_light(settings.hue_plug_name, "on", True)
+        bridge.set_light(settings.threshold_price_hue_plug_name, "on", True)
     else:
-        bridge.set_light(settings.hue_plug_name, "on", False)
+        bridge.set_light(settings.threshold_price_hue_plug_name, "on", False)
+
+    # Plunge pricing
+    if current_rate <= 0:
+        bridge.set_light(settings.plunge_price_hue_plug_name, "on", True)
+    else:
+        bridge.set_light(settings.plunge_price_hue_plug_name, "on", False)
+
 
 if __name__ == "__main__":
     main()
