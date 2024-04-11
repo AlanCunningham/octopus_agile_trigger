@@ -1,6 +1,6 @@
 # Octopus Agile Trigger
 
-A small script that turns toggles the state of Philips Hue plugs based on the current Octopus Agile price.
+A small script that toggles the state of Philips Hue plugs based on the current Octopus Agile price.
 
 ## Overview
 This is intended to be run every half an hour on a cronjob.  When the price drops below a given threshold,
