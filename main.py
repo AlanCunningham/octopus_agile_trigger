@@ -13,14 +13,16 @@ def main():
     agile = Agile(settings.region_code)
     current_rate = agile.get_current_rate()
 
-    print(current_rate)
+    print(f"Current rate: {current_rate}")
 
     if settings.use_flask_server:
         response = requests.get("http://localhost:8000/price")
-        price_threshold_pence = response.json()
+        price_threshold_pence = int(response.json()["threshold"])
     else:
         price_threshold_pence = settings.price_threshold_pence
 
+
+    print(f"Price threshold: {price_threshold_pence}")
     # Below threshold
     if current_rate < price_threshold_pence:
         bridge.set_light(settings.threshold_price_hue_plug_name, "on", True)
