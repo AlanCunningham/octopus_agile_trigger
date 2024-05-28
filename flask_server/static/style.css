@@ -4,11 +4,6 @@
     padding-bottom: 1ex;
 }
 
-#price::after {
-    content: "p/kWh";
-    display: inline-block;
-  }
-
 #price-label {
     font-size: 4ex;
     padding-bottom: 1ex;
