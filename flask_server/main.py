@@ -15,7 +15,10 @@ def set_price_threshold():
     if request.method == "POST":
         price_threshold = request.form["price"]
         print(f"New price: {price_threshold}")
-    return render_template("index.html", price_threshold=price_threshold)
+        return render_template("index.html", price_threshold=price_threshold, show_toast=True)
+
+    else:
+        return render_template("index.html", price_threshold=price_threshold, show_toast=False)
 
 
 @app.route("/price")
