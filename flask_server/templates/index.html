@@ -24,16 +24,60 @@
         <div class="center">
 
           <form class="col s12 center" method="POST">
-            <div class="row">
+            <!-- Thresholder / Timer switch -->
+            <div class="switch col">
+              <label>
+                Threshold
+                <input {{ use_timer }} type="checkbox" id="useTimer" name="useTimer">
+                <span class="lever"></span>
+                Timer
+              </label>
+            </div>
+
+            <div class="section"></div>
+
+            <!-- Charging threshold -->
+            <div id="charging-threshold" class="row">
               <div class="input-field col s12">
                 <input value="{{ price_threshold }}" id="price" name="price" type="number" class="validate center">
                 <label id="price-label" for="price">Charge the car when the price is less than:</label>
               </div>
             </div>
+
+            <!-- Start charging datetimes -->
+            <div id="charging-timer" class="charging-timer">
+              <div class="row">
+                <div class="col s6 input-field ">
+                  <input value="{{ start_charge_date }}" id="start-date" name="start-date" type="text" class="datepicker-start">
+                  <label for="start-date" class="">Start charging date</label>
+                </div>
+                <div class="col s6 input-field ">
+                  <input value="{{ start_charge_time }}" id="start-time" name="start-time" type="text" class="timepicker-start">
+                  <label for="start-time" class="">Start charging time</label>
+                </div>
+              </div>
+
+              <!-- End charging datetimes -->
+              <div class="row">
+                <div class="col s6 input-field ">
+                  <input value="{{ end_charge_date }}" id="end-date" name="end-date" type="text" class="datepicker-end">
+                  <label for="end-date" class="">End charging date</label>
+                </div>
+                <div class="col s6 input-field ">
+                  <input value="{{ end_charge_time }}" id="end-time" name="end-time" type="text" class="timepicker-end">
+                  <label for="end-time" class="">End charging time</label>
+                </div>
+              </div>
+            </div>
+
             <button class="btn-large waves-effect waves-light light-blue" type="submit" name="action">
               Submit
             </button>
+
           </form>
+
+
+
 
         </div>
       </div>
@@ -41,9 +85,17 @@
 
     <!--JavaScript at end of body for optimized loading-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+      // Make the flask variables available in javascript
+      var start_charge_date = "{{ start_charge_date }}";
+      var start_charge_time = "{{ start_charge_time }}";
+      var end_charge_date = "{{ end_charge_date }}";
+      var end_charge_time = "{{ end_charge_time }}";
+    </script>
+    <script src="{{ url_for('static', filename='javascript.js')}}"></script>
     {% if show_toast %}
     <script>
-      M.toast({html: "Price updated 👍", classes: "green"})
+      M.toast({html: "Updated 👍", classes: "green"})
     </script>
     {% endif %}
 
