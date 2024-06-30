@@ -4,12 +4,14 @@ document.addEventListener('DOMContentLoaded', function() {
     var startDateElems = document.querySelectorAll('.datepicker-start');
     var startDateOptions = {
         "format": "ddd dd mmm yyyy",
+        "firstDay": 1
     }
     var startDateinstances = M.Datepicker.init(startDateElems, startDateOptions);
 
     var endDateElems = document.querySelectorAll('.datepicker-end');
     var endDateOptions = {
         "format": "ddd dd mmm yyyy",
+        "firstDay": 1
     }
     var endDateinstances = M.Datepicker.init(endDateElems, endDateOptions);
 
