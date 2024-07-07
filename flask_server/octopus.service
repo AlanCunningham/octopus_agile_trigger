@@ -1,0 +1,12 @@
+# Copy this file to /etc/systemd/system/
+[Unit]
+Description=Octopus Agile trigger
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/home/pi/projects/octopus_agile_trigger/venv/bin/python /home/pi/projects/octopus_agile_trigger/octopus_agile_trigger/flask_server/main.py
+
+[Install]
+WantedBy=multi-user.target
