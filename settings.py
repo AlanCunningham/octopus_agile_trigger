@@ -11,3 +11,8 @@ use_flask_server = True
 
 # Ignored if use_flask_server is True
 price_threshold_pence = 10
+
+# Use fixed day/night Octopus Go prices, instead of dynamic Agile rates
+octopus_go_mode = False
+octopus_go_day_rate = 25.9
+octopus_go_night_rate = 8.5

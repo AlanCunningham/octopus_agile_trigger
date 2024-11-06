@@ -10,24 +10,34 @@ def main():
     bridge = Bridge(settings.bridge_ip_address)
     bridge.connect()
     bridge.get_api()
+    local_timezone = pytz.timezone("Europe/London")
+    now = datetime.now().astimezone(local_timezone)
 
     # https://en.wikipedia.org/wiki/Distribution_network_operator
-    agile = Agile(settings.region_code)
-    current_rate = agile.get_current_rate()
+    if settings.octopus_go_mode:
+        # Use fixed Octopus Go pricing
+        cheap_night_start = now.replace(hour=0, minute=30, second=0, microsecond=0)
+        cheap_night_end = now.replace(hour=5, minute=30, second=0, microsecond=0)
+        if now > cheap_night_start and now < cheap_night_end:
+            current_rate = settings.octopus_go_night_rate
+        else:
+            current_rate = settings.octopus_go_day_rate
+    else:
+        # Use dynamic Octopus Agile pricing
+        agile = Agile(settings.region_code)
+        current_rate = agile.get_current_rate()
     print(f"Current rate: {current_rate}")
 
     response = requests.get("http://localhost:8000/price").json()
 
     if response["use_timer"]:
         # Use timer for charging
-        local_timezone = pytz.timezone("Europe/London")
         start_charge = datetime.fromisoformat(response["start_charge"]).astimezone(
             local_timezone
         )
         end_charge = datetime.fromisoformat(response["end_charge"]).astimezone(
             local_timezone
         )
-        now = datetime.now().astimezone(local_timezone)
 
         if now > start_charge and now < end_charge:
             # Start charging
