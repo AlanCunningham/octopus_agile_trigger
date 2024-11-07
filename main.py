@@ -12,6 +12,7 @@ def main():
     bridge.get_api()
     local_timezone = pytz.timezone("Europe/London")
     now = datetime.now().astimezone(local_timezone)
+    formatted_time = now.strftime("%c")
 
     # https://en.wikipedia.org/wiki/Distribution_network_operator
     if settings.octopus_go_mode:
@@ -26,7 +27,6 @@ def main():
         # Use dynamic Octopus Agile pricing
         agile = Agile(settings.region_code)
         current_rate = agile.get_current_rate()
-    print(f"Current rate: {current_rate}")
 
     response = requests.get("http://localhost:8000/price").json()
 
@@ -41,23 +41,22 @@ def main():
 
         if now > start_charge and now < end_charge:
             # Start charging
-            print("Start charging (timer)")
+            print(f"{formatted_time}: Timer start: {start_charge.strftime('%c')} | Start charging")
             bridge.set_light(settings.threshold_price_hue_plug_name, "on", True)
         elif now > end_charge:
             # Stop charging
-            print("Stop charging (timer)")
+            print(f"{formatted_time}: Timer stop: {end_charge.strftime('%c')} | Stop charging")
             bridge.set_light(settings.threshold_price_hue_plug_name, "on", False)
     else:
         # Use price threshold for charging
         price_threshold_pence = int(response["threshold"])
-        print(f"Price threshold: {price_threshold_pence}")
         if current_rate < price_threshold_pence:
             # Below threshold - start charging
-            print("Start charging (threshold)")
+            print(f"{formatted_time}: Current rate: {current_rate} | Threshold: {price_threshold_pence} | Start charging")
             bridge.set_light(settings.threshold_price_hue_plug_name, "on", True)
         else:
             # Above threshold - stop charging
-            print("Stop charging (threshold)")
+            print(f"{formatted_time}: Current rate: {current_rate} | Threshold: {price_threshold_pence} | Stop charging")
             bridge.set_light(settings.threshold_price_hue_plug_name, "on", False)
 
 
