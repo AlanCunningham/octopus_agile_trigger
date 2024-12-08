@@ -6,7 +6,7 @@ import pytz
 app = Flask(__name__)
 
 use_timer = None
-price_threshold = 8
+price_threshold = 10
 start_charge_date = None
 start_charge_time = None
 end_charge_date = None
