@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from datetime import datetime
+from datetime import datetime, timedelta
 import pytz
 
 
@@ -65,6 +65,17 @@ def get_price_threshold():
     """
     Returns JSON response of the currently set price threshold
     """
+    global start_charge_date
+    global start_charge_time
+    global end_charge_date
+    global end_charge_time
+    print(start_charge_date, start_charge_time)
+
+    if not start_charge_date:
+        start_charge_date = datetime.now().strftime("%a %d %b %Y")
+        start_charge_time = datetime.now().strftime("%H:%M")
+        end_charge_date = datetime.now().strftime("%a %d %b %Y")
+        end_charge_time = (datetime.now() + timedelta(hours=1)).strftime("%H:%M")
 
     # Convert the start/end date and times into datetimes
     datetime_format = "%a %d %b %Y %H:%M"
